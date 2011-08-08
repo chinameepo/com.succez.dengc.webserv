@@ -1,0 +1,19 @@
+.html == text/html;charset=gb2312
+.htm ==  text/html;charset=gb2312
+.xml ==text/xml
+.txt ==  text/plain
+.c ==  text/plain
+.cpp== text/plain
+.java ==text/plain
+.pl ==  text/plain
+.cc ==  text/plain
+.h  ==  text/plain
+.css ==  text/css
+.gif ==  image/gif
+.png == image/png
+.jpeg ==  image/jpeg
+.jpg == image/jpeg
+.jpe == image/jpeg
+.tiff == image/tiff
+.tif == image/tiff
+.rgb == image/rgb
