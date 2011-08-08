@@ -116,7 +116,8 @@ public class Response implements Runnable {
 	public String getUrl(String requestString)throws UnsupportedEncodingException {
 		if ("".equals(requestString))
 			return "";
-		/* 截断报文，获取url。请求报文第一行的格式都是 GET /urlcontent**** HTTP/1.X*/
+		/* 截断报文，获取url。请求报文第一行的格式都是 GET /urlcontent**** HTTP/1.X。不要判断substring
+		 * 的索引溢出问题，这么做是因为浏览器 * 传过来的报文第一行肯定是这样的。	*/
 		String url  = requestString.substring(5,requestString.lastIndexOf("HTTP/1.")).trim();
 		/* 如果对方输入的页面是空的，例如http://localhost:8080/,跳至首页 */
 		if ("".equals(url))

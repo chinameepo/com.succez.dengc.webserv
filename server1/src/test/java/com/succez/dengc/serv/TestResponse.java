@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,8 +28,54 @@ import com.succez.dengc.serv.Response;;
  * 对response类的测试类，请注意。如果你要用自己的文件拖进来做测试，请做好备份。
  */
 public class TestResponse {
-	
-	
+	@Test
+	public final void testGetHttpHead() throws FileNotFoundException
+	{
+		testGetHttpheadSub("GET /fw48*()()?>LL: HTTP/1.1"+"\n","src/test/java/testfl/reqst-cmplx.txt");
+		testGetHttpheadSub("GET /c%20s%20s.txt HTTP/1.1"+"\n","src/test/java/testfl/reqst-dec%.txt");
+		testGetHttpheadSub("GET /Temp/c+s+s.txt HTTP/1.1"+"\n","src/test/java/testfl/reqst-dec+.txt");
+		testGetHttpheadSub("GET /Temp/test HTTP/1.1"+"\n","src/test/java/testfl/reqst-dir.txt");  
+		testGetHttpheadSub("","src/test/java/testfl/reqst-empt.txt");
+		testGetHttpheadSub("GET / HTTP/1.1"+"\n","src/test/java/testfl/reqst-home.txt");
+	}
+	/**
+	 * testGetHttpHead()的辅助方法
+	 * */
+	public void testGetHttpheadSub(String except,String compareFilePath) throws FileNotFoundException
+	{
+		Response response = new Response(null);
+		StringBuilder builder = new StringBuilder();
+		File file = new File(compareFilePath);
+		InputStream in = null;
+		if (file.exists() && file.isFile()) {
+			try {
+				in = (InputStream) (new FileInputStream(file));
+				builder.append(response.getHttpHead(in));
+				assertEquals(except, builder.toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					in.close();
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
+		}
+	}
+	@Test
+	public final void testGetUrl() throws UnsupportedEncodingException
+	{
+		Response response = new Response(null);
+		assertEquals("aa.png", response.getUrl("GET /aa.png HTTP/1.1"));
+		assertEquals("aa.png", response.getUrl("GET /aa.png HTTP/1.0"));
+		assertEquals("aa.png", response.getUrl("GET /aa.png HTTP/1.0"+"keep alive"));
+		assertEquals("index.html", response.getUrl("GET / HTTP/1.0"));
+		assertEquals("a a .png", response.getUrl("GET /a%20a%20.png HTTP/1.0"));
+		assertEquals("a a .png", response.getUrl("GET /a+a+.png HTTP/1.0"));
+		assertEquals("", response.getUrl(""));
+		
+	}
 	
 	/**
 	 * 具体的写入头文件、写入文件的，这个被测试方法的子方法已经测试过了
