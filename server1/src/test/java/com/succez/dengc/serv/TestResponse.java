@@ -24,10 +24,12 @@ import com.succez.dengc.serv.Response;;
  * 
  * @author 邓超 deng.369@gmail.com
  * @version 1.0,创建时间：2011-8-3 上午08:44:10
- * @since jdk1.5 
+ * @since jdk1.6
  * 对response类的测试类，请注意。如果你要用自己的文件拖进来做测试，请做好备份。
  */
 public class TestResponse {
+	/**这么写的前提是我肯定浏览器发过来的http请求报文头都是GET /abc.com HTTP/1.1
+	 * 形式的。*/
 	@Test
 	public final void testGetHttpHead() throws FileNotFoundException
 	{
@@ -63,6 +65,8 @@ public class TestResponse {
 			}
 		}
 	}
+	/**
+	 * 这个被测试的函数的参数，肯定不为null*/
 	@Test
 	public final void testGetUrl() throws UnsupportedEncodingException
 	{
@@ -74,7 +78,6 @@ public class TestResponse {
 		assertEquals("a a .png", response.getUrl("GET /a%20a%20.png HTTP/1.0"));
 		assertEquals("a a .png", response.getUrl("GET /a+a+.png HTTP/1.0"));
 		assertEquals("", response.getUrl(""));
-		
 	}
 	
 	/**

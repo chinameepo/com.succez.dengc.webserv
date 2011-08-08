@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
  *All right resrvered esensoft(2011)
  * @author  邓超   deng.369@gmail.com
  * @version 1.0,创建时间：2011-8-2 下午07:12:36
- * @since   jdk1.5
+ * @since   jdk1.6
  * 浏览器应答类，通过获得的socket对象，利用socket对象的IO流和浏览器通信。
  */
 public class Response implements Runnable {
@@ -116,9 +116,11 @@ public class Response implements Runnable {
 	public String getUrl(String requestString)throws UnsupportedEncodingException {
 		if ("".equals(requestString))
 			return "";
-		/* 截断报文，获取url。请求报文第一行的格式都是 GET /urlcontent**** HTTP/1.X。不要判断substring
-		 * 的索引溢出问题，这么做是因为浏览器 * 传过来的报文第一行肯定是这样的。	*/
-		String url  = requestString.substring(5,requestString.lastIndexOf("HTTP/1.")).trim();
+		/* 截断报文，获取url。请求报文第一行的格式都是 GET /urlcontent**** HTTP/1.X。*/
+		int indexOfHTTP =requestString.lastIndexOf("HTTP/1.");
+		if(indexOfHTTP==-1)
+			return "";
+		String url  = requestString.substring(5,indexOfHTTP).trim();
 		/* 如果对方输入的页面是空的，例如http://localhost:8080/,跳至首页 */
 		if ("".equals(url))
 		{
